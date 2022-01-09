@@ -1,11 +1,10 @@
-from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
-from ..database import db
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from travel_app.database.db import Base
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 
 
-class User(db.Base):
+class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, nullable=False)
     full_name = Column(String, nullable=False)
@@ -18,7 +17,7 @@ class User(db.Base):
     )
     # trek_destination = relationship('TrekDestination', back_populates="owner")
 
-class TrekDestination(db.Base): #POST
+class TrekDestination(Base): #POST
     __tablename__ = "trek_destinations"
     id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String, nullable=False)
@@ -31,7 +30,7 @@ class TrekDestination(db.Base): #POST
     user_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
     # owner = relationship("User", back_populates="trek_destination")
 
-class Itenaries(db.Base):
+class Itenaries(Base):
     __tablename__ = 'iternaries'
     trek_destination_id = Column(Integer, ForeignKey("trek_destinations.id", ondelete='CASCADE'), primary_key=True)
     day = Column(Integer, nullable=False)
@@ -41,7 +40,7 @@ class Itenaries(db.Base):
     # owner = relationship("User", back_populates="trek_destination")
  
 
-class Comment(db.Base):
+class Comment(Base):
     __tablename__ ='comments'
     comment_on = Column(Integer, ForeignKey("trek_destinations.id", ondelete='CASCADE'), primary_key=True)
     comment_by = Column(Integer, ForeignKey("users.id", ondelete= 'CASCADE')) #subject to change to set null
@@ -50,8 +49,8 @@ class Comment(db.Base):
     )
 
 
-class Upvote(db.Base):
+class Vote(Base):
     __tablename__ = 'votes'
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    trek_destination_id = Column(Integer, ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
+    trek_destination_id = Column(Integer, ForeignKey('trek_destinations.id', ondelete='CASCADE'), primary_key=True)
      
