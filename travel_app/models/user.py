@@ -1,8 +1,8 @@
 from sqlalchemy.sql.expression import text
 from travel_app.database.db import Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "users"
@@ -15,42 +15,8 @@ class User(Base):
     created_at = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
     )
-    # trek_destination = relationship('TrekDestination', back_populates="owner")
-
-class TrekDestination(Base): #POST
-    __tablename__ = "trek_destinations"
-    id = Column(Integer, primary_key=True, nullable=False)
-    title = Column(String, nullable=False)
-    days = Column(Integer, nullable=False)
-    difficulty = Column(String, nullable=False, unique=True)
-    total_cost = Column(Integer, unique=True, nullable=False)
-    created_at = Column(
-        TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
-    )
-    user_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
-    # owner = relationship("User", back_populates="trek_destination")
-
-class Itenaries(Base):
-    __tablename__ = 'iternaries'
-    trek_destination_id = Column(Integer, ForeignKey("trek_destinations.id", ondelete='CASCADE'), primary_key=True)
-    day = Column(Integer, nullable=False)
-    title = Column(String, nullable=False)
-    description = Column(String, nullable=False)
-    day_cost = Column(Integer, unique=True, nullable=False)
-    # owner = relationship("User", back_populates="trek_destination")
- 
-
-class Comment(Base):
-    __tablename__ ='comments'
-    comment_on = Column(Integer, ForeignKey("trek_destinations.id", ondelete='CASCADE'), primary_key=True)
-    comment_by = Column(Integer, ForeignKey("users.id", ondelete= 'CASCADE')) #subject to change to set null
-    created_at = Column(
-        TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
-    )
+    trek_destination = relationship('TrekDestination', back_populates="owner") #to get all trekdestinations posted by this user
 
 
-class Vote(Base):
-    __tablename__ = 'votes'
-    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    trek_destination_id = Column(Integer, ForeignKey('trek_destinations.id', ondelete='CASCADE'), primary_key=True)
-     
+
+
