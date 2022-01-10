@@ -1,3 +1,4 @@
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from travel_app.database.db import Base
 from sqlalchemy import Column, Integer, ForeignKey
@@ -11,4 +12,5 @@ class Comment(Base):
     created_at = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
     )
-    
+
+    comments = relationship('TrekDestination', back_populates='comments')
