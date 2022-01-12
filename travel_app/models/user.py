@@ -8,14 +8,14 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, nullable=False)
     full_name = Column(String, nullable=False)
-    address = Column(String, nullable=False)
+    address = Column(String, nullable=True)
     email = Column(String, nullable=False, unique=True)
-    phone_no = Column(String, unique=True, nullable=False)
+    phone_no = Column(String, unique=True, nullable=True)
     password = Column(String, nullable=False)
     created_at = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
     )
-    trek_destination = relationship('TrekDestination', back_populates="owner") #to get all trekdestinations posted by this user
+    routes_written = relationship('TrekDestination', back_populates="created_by") #to get all trekdestinations posted by this user
 
 
 
