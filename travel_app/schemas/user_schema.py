@@ -11,16 +11,14 @@ class User(BaseModel):
     class Config: 
         orm_mode = True
 
-class UserWrittenDestinations(BaseModel):
-    id: Optional[int] = 0
-    title: Optional[str] = ''
-
-
+class UserCreate(User):
+    password: str
+    address : Optional[str] = None
+    phone_no: Optional[str] = None
+    
 class UserResponse(User):
     id: int
-    # routes_written: UserWrittenDestinations
     phone_no: Optional[str] = None
     address : Optional[str] = None
-
     class Config: 
         orm_mode = True

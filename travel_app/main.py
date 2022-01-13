@@ -3,7 +3,7 @@ from travel_app.database.db import engine
 from travel_app.models import user
 from travel_app.database.db_model_init import add_models_to_database
 from fastapi.middleware.cors import CORSMiddleware
-from travel_app.routers import travel_destination_route,user_route
+from travel_app.routers import travel_destination_route,user_route, login_route
 
 app = FastAPI()
 origins = ["*"]
@@ -19,7 +19,7 @@ app.add_middleware(
 
 app.include_router(travel_destination_route.router)
 app.include_router(user_route.router)
-
+app.include_router(login_route.router)
 
 
 @app.get("/")

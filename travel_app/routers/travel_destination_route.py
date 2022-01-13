@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get('/', response_model=List[travel_destination_schema.TravelDestinationResponse])
+@router.get('/',response_model=List[travel_destination_schema.TravelDestinationResponse])
 def get_all_travel_dest(db: Session = Depends(db.get_db)):
     # travel_dest = db.query(trekdestination.TrekDestination, user.User).filter(trekdestination.TrekDestination.user_id == user.User.id).first()
     # join(itenary.Itenary,
