@@ -3,12 +3,13 @@ from . import user_schema, travel_destination_schema
 from datetime import datetime
 
 
-class CommentCreate(BaseModel):
-    user_name : str #user_schema.UserCreate.full_name
+class UserComment(BaseModel):
+    comment_by_user: int #user_schema.UserCreate.full_name
     created_at : datetime
 
-class CommentsResponse(CommentCreate):
-    comments : str
+
+class CommentsResponse(BaseModel):
+    comment : str
 
     class Config:
         orm_mode = True

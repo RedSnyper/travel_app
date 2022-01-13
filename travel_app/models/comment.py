@@ -15,4 +15,5 @@ class Comment(Base):
     )
     comment = Column(String, nullable=False)
 
+    comment_by_user = relationship('User') 
     comments = relationship('TrekDestination', back_populates='comments')   

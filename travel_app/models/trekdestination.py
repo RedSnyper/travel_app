@@ -17,5 +17,5 @@ class TrekDestination(Base): #POST
     user_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
     created_by = relationship("User") #who wrote this trekdestination
     itenaries = relationship("Itenary", back_populates='itenaries') #to get all iternaries of the trek destination
-    comments = relationship("Comment", back_populates='comments') #to get all comment on the trek_destinations
+    comments = relationship("Comment", back_populates=('comments')) #to get all comment on the trek_destinations
     votes = relationship('Vote', back_populates='votes')    #to get votes on the trekdestination

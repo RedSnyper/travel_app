@@ -51,21 +51,3 @@ async def get_user_by_id(id: int, db: Session = Depends(db.get_db)):
     if not user_found:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f' user with id {id} does not exist')
     return user_found  
-  
-  
-  
-  
-    # posts = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
-    #     models.Vote, models.Vote.post_id == models.Post.id, isouter = True).group_by(
-    #         models.Post.id).filter(
-    #             models.Post.title.contains(search.lower())).limit(limit=limit).offset(skip).all()
-
-    # users = db.query(
-    #     user.User, func.count(trekdestination.TrekDestination.title).label("articles written")).join(
-    #         trekdestination.TrekDestination,
-    #         trekdestination.TrekDestination.user_id == user.User.id, isouter = True).group_by(
-    #             user.User.id
-    # return users
-    # v = db.query(user.User, trekdestination.TrekDestination.title).filter(user.User.id == trekdestination.TrekDestination.id).all()
-    # print(v)
-    # return v
