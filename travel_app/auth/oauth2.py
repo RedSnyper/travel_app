@@ -37,7 +37,7 @@ def verify_access_token(token: str, credentials_exception):
         token_data = TokenData(id=id)
         return token_data
     except JWTError:
-        raise create_access_token
+        raise credentials_exception
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f'Could not validate credentials', headers = {

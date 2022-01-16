@@ -45,7 +45,7 @@ async def get_all_users(db: Session = Depends(db.get_db)):
   
   
   
-@router.get('/{id}', response_model=user_schema.UserResponse, status_code=status.HTTP_200_OK)
+@router.get('/{id}', response_model=user_schema.UserDetailResponse, status_code=status.HTTP_200_OK)
 async def get_user_by_id(id: int, db: Session = Depends(db.get_db)):
     user_found = db.query(user.User).filter(user.User.id == id).first()
     if not user_found:

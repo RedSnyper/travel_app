@@ -6,6 +6,7 @@ from ..database.db import get_db
 from ..models.user import User
 from ..utils.password_encrypt import verify
 from ..auth import oauth2
+
 router = APIRouter(tags=['Authentication'])
 
 
@@ -29,3 +30,11 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
 
 
 #logout_check needed
+@router.post('/logout',)
+def logout(auth_user = Depends(oauth2.get_current_user)):
+    print("comes here")
+    if auth_user:
+        del(auth_user)
+        return {'logout':"success"}
+
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Login first")

@@ -1,29 +1,40 @@
-from pydantic import BaseModel
+from optparse import Option
+from pydantic import BaseModel, validator
 from datetime import datetime
 from typing import Optional, List
-from . import user_schema, itenary_schema, comment_schema
+
+from travel_app.models.trekdestination import TrekDestination
+from . import user_schema, itenary_schema, comment_schema, vote_schema
+
 
 
 class TravelDestinationCreate(BaseModel):
-    id: int
     title: str
     days : int
     difficulty: str
     total_cost: str
-    # itenaries: itenary_schema.IternaryCreate
+
+    class Config:
+        orm_mode = True
 
 
-class TravelDestinationResponse(TravelDestinationCreate):
+class TravelDestinationResponse(BaseModel):
+    trek_id: int
+    title: str
+    days : int
+    difficulty: str
+    total_cost: str
+    created_by : user_schema.UserName
     class Config: 
         orm_mode = True
 
 
-class TravelDestinationDetailResponse(TravelDestinationResponse):
-    created_by: user_schema.User
+class TravelDestinationDetailResponse(TravelDestinationCreate):
+    created_by: user_schema.UserNameEmail
     created_at : datetime
     itenaries : List[itenary_schema.IternaryResponse]
     comments : List[comment_schema.CommentsResponse]
-
+    votes: List[vote_schema.VotedBy]
     class Config:
         orm_mode = True
     

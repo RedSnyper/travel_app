@@ -4,12 +4,15 @@ from datetime import datetime
 
 
 class UserComment(BaseModel):
-    comment_by_user: int #user_schema.UserCreate.full_name
-    created_at : datetime
+    commented_by: user_schema.UserName
 
+class CommentCreate(BaseModel):
+    comment: str
 
-class CommentsResponse(BaseModel):
+class CommentsResponse(UserComment):
+    comment_id: int
     comment : str
+    created_at : datetime
 
     class Config:
         orm_mode = True
