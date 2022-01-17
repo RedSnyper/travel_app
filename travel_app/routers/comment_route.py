@@ -22,6 +22,7 @@ def add_comment(commentschema: comment_schema.CommentCreate,  id: int, db: Sessi
                             detail=f"Trek destination does not exist")
     new_comment = comment.Comment(comment_on = id, comment_by = auth_user.id, **commentschema.dict())
     db.add(new_comment)
+    trek.comment_count += 1
     db.commit()
     db.refresh(new_comment)
     return "comment added"
@@ -58,8 +59,9 @@ def delete_comment(post_id: int, comment_id: int, db: Session = Depends(db.get_d
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"comment does not exist")
 
-    if comment_query.first().comment_by == auth_user.id or trek.created_by == auth_user.id:
+    if comment_query.first().comment_by == auth_user.id or trek.user_id == auth_user.id:
         comment_query.delete(synchronize_session=False)
+        trek.comment_count -= 1
         db.commit()
         return "comment deleted"
     else:

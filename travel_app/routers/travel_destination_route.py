@@ -23,10 +23,10 @@ auth_user : user.User = Depends(oauth2.get_current_user)):
 
 
 
-@router.get('/', response_model=List[travel_destination_schema.TravelDestinationResponse])
+@router.get('/', response_model=List[travel_destination_schema.TravelDestinationResponse], status_code=status.HTTP_200_OK)
 def get_all_travel_dest(db: Session = Depends(db.get_db)):
 
-    treks = db.query(trekdestination.TrekDestination).all()
+    treks = db.query(trekdestination.TrekDestination).order_by(trekdestination.TrekDestination.trek_id).all()
     if treks:
         return treks
 
@@ -82,7 +82,7 @@ def get_post_by_id(id: int, db: Session = Depends(db.get_db)):
                         detail=f'trek route with id = {id} not found')
 
 
-@router.put('/{id}', response_model=travel_destination_schema.TravelDestinationResponse)
+@router.put('/{id}', response_model=travel_destination_schema.TravelDestinationResponse, status_code=status.HTTP_200_OK)
 def update_trek(id: int, 
     trek: travel_destination_schema.TravelDestinationCreate, 
     auth_user : user.User = Depends(oauth2.get_current_user),

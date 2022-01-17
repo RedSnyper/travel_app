@@ -12,7 +12,7 @@ router = APIRouter(
 
 
 
-@router.post("/{id}/vote", status_code=status.HTTP_201_CREATED)
+@router.post("/{id}/vote", status_code=status.HTTP_200_OK)
 def add_vote(id: int, db: Session = Depends(db.get_db), auth_user: user.User = Depends(oauth2.get_current_user)):
 
     trek = db.query(trekdestination.TrekDestination).filter(trekdestination.TrekDestination.trek_id == id).first()
@@ -27,10 +27,12 @@ def add_vote(id: int, db: Session = Depends(db.get_db), auth_user: user.User = D
     if not found_vote:
         new_vote = vote.Vote(trek_destination_id=id, user_id=auth_user.id)
         db.add(new_vote)
+        trek.vote_count += 1
         db.commit()
         return {"message": f"added vote to '{trek.title}' by {auth_user.full_name}"}
     else:
         vote_query.delete(synchronize_session=False)
+        trek.vote_count -= 1
         db.commit()
         return {"message": f"removed vote from '{trek.title}' given by {auth_user.full_name}"}
 

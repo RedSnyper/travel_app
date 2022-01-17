@@ -25,6 +25,8 @@ class TravelDestinationResponse(BaseModel):
     difficulty: str
     total_cost: str
     created_by : user_schema.UserName
+    comment_count : int
+    vote_count : int 
     class Config: 
         orm_mode = True
 

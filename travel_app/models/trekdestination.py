@@ -14,6 +14,8 @@ class TrekDestination(Base): #POST
         TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
     )
     user_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
+    comment_count = Column(Integer, nullable=False, server_default=text('0'))
+    vote_count = Column(Integer, nullable=False, server_default=text('0'))
     created_by = relationship("User") #who wrote this trekdestination
     itenaries = relationship("Itenary", back_populates='itenaries') #to get all iternaries of the trek destination
     comments = relationship("Comment", back_populates='comments') #to get all comment on the trek_destinations
