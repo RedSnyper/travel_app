@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=travel_destination_schema.TravelDestinationResponse)
-def create_trek_dest(trek: travel_destination_schema.TravelDestinationCreate, db: Session = Depends(db.get_db),
+def create_trek_destination(trek: travel_destination_schema.TravelDestinationCreate, db: Session = Depends(db.get_db),
 auth_user : user.User = Depends(oauth2.get_current_user)):
     new_trek = trekdestination.TrekDestination(user_id = auth_user.id, **trek.dict())
     db.add(new_trek)
@@ -24,7 +24,7 @@ auth_user : user.User = Depends(oauth2.get_current_user)):
 
 
 @router.get('/', response_model=List[travel_destination_schema.TravelDestinationResponse], status_code=status.HTTP_200_OK)
-def get_all_travel_dest(db: Session = Depends(db.get_db)):
+def get_all_travel_destinations(db: Session = Depends(db.get_db)):
 
     treks = db.query(trekdestination.TrekDestination).order_by(trekdestination.TrekDestination.trek_id).all()
     if treks:
@@ -72,7 +72,7 @@ def get_all_travel_dest(db: Session = Depends(db.get_db)):
 
 
 @router.get('/{id}', response_model=travel_destination_schema.TravelDestinationDetailResponse)
-def get_post_by_id(id: int, db: Session = Depends(db.get_db)):
+def get_trek_destination_by_id(id: int, db: Session = Depends(db.get_db)):
     trek = db.query(trekdestination.TrekDestination).filter(
         trekdestination.TrekDestination.trek_id == id).first()
 
@@ -83,7 +83,7 @@ def get_post_by_id(id: int, db: Session = Depends(db.get_db)):
 
 
 @router.put('/{id}', response_model=travel_destination_schema.TravelDestinationResponse, status_code=status.HTTP_200_OK)
-def update_trek(id: int, 
+def update_trek_destination(id: int, 
     trek: travel_destination_schema.TravelDestinationCreate, 
     auth_user : user.User = Depends(oauth2.get_current_user),
     db: Session = Depends(db.get_db)):
@@ -104,7 +104,7 @@ def update_trek(id: int,
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int, db: Session = Depends(db.get_db), auth_user: user.User = Depends(oauth2.get_current_user)):
+def delete_trek_destination(id: int, db: Session = Depends(db.get_db), auth_user: user.User = Depends(oauth2.get_current_user)):
 
     trek = db.query(trekdestination.TrekDestination).filter(trekdestination.TrekDestination.trek_id == id)
     if trek.first():

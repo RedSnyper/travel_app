@@ -4,6 +4,7 @@ from travel_app.models import user
 from travel_app.database.db_model_init import add_models_to_database
 from fastapi.middleware.cors import CORSMiddleware
 from travel_app.api.api_vi.api import api_router
+from travel_app.api.api_vi.endpoints import login
 
 app = FastAPI(title="Elective_Travel_App")
 origins = ["*"]
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(api_router, prefix='/api/api_v1')
+app.include_router(login.router)
 
 @app.get("/")
 async def main() -> dict:

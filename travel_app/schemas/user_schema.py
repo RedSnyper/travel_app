@@ -34,14 +34,12 @@ class UserResponse(BaseModel):
     id: int
     email: EmailStr
     full_name : str
-
+    phone_no: Optional[str] = None
+    address : Optional[str] = None
     class Config:
         orm_mode = True
 
-
 class UserDetailResponse(UserResponse):
-    phone_no: Optional[str] = None
-    address : Optional[str] = None
     routes_written: List[UserWrittenRoute] = []
     class Config: 
         orm_mode = True

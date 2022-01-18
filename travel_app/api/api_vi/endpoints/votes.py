@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post("/{id}/vote", status_code=status.HTTP_200_OK)
-def add_vote(id: int, db: Session = Depends(db.get_db), auth_user: user.User = Depends(oauth2.get_current_user)):
+def add_or_remove_vote(id: int, db: Session = Depends(db.get_db), auth_user: user.User = Depends(oauth2.get_current_user)):
 
     trek = db.query(trekdestination.TrekDestination).filter(trekdestination.TrekDestination.trek_id == id).first()
     if not trek:

@@ -56,7 +56,7 @@ async def get_user_by_id(id: int, db: Session = Depends(db.get_db)):
     return user_found
 
 
-@router.put('/{id}', response_model=user_schema.UserDetailResponse, status_code=status.HTTP_200_OK)
+@router.put('/{id}', response_model=user_schema.UserResponse, status_code=status.HTTP_200_OK)
 async def update_user(userSchema: user_schema.UserCreate, id: int, db: Session = Depends(db.get_db), auth_user: user.User = Depends(oauth2.get_current_user)):
     user_query = db.query(user.User).filter(user.User.id == id)
     if not user_query.first():
@@ -71,6 +71,8 @@ async def update_user(userSchema: user_schema.UserCreate, id: int, db: Session =
     # if user_email_phone_exist:
     #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'the email or the phone number already exist. Add unique email or phone')
     try:
+        hashed_password = password_encrypt.hash(userSchema.password)
+        userSchema.password = hashed_password
         user_query.update(userSchema.dict(), synchronize_session=False)
         db.commit()
     except exc.IntegrityError:

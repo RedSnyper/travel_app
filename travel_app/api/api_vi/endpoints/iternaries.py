@@ -13,8 +13,8 @@ router = APIRouter(
 )
 
 
-@router.post("/{id}/itinerary", status_code=status.HTTP_201_CREATED)
-def add_iter(iternary_value: itenary_schema.IternaryCreate,  id: int, db: Session = Depends(db.get_db), auth_user : user.User = Depends(oauth2.get_current_user)):
+@router.post("/{id}/itinerary", status_code=status.HTTP_201_CREATED, response_model=itenary_schema.IternaryResponse)
+def add_itineary(iternary_value: itenary_schema.IternaryCreate,  id: int, db: Session = Depends(db.get_db), auth_user : user.User = Depends(oauth2.get_current_user)):
 
     trek = db.query(trekdestination.TrekDestination).filter(
         trekdestination.TrekDestination.trek_id == id).first()
@@ -42,7 +42,7 @@ def add_iter(iternary_value: itenary_schema.IternaryCreate,  id: int, db: Sessio
 
 
 @router.get("/{id}/itinerary", status_code=status.HTTP_200_OK , response_model=List[itenary_schema.IternaryResponse])
-def get_iter_details(id: int, db:Session = Depends(db.get_db)):
+def get_itineary_details(id: int, db:Session = Depends(db.get_db)):
     trek = db.query(trekdestination.TrekDestination).filter(
         trekdestination.TrekDestination.trek_id == id).first()
     if not trek:
@@ -53,7 +53,7 @@ def get_iter_details(id: int, db:Session = Depends(db.get_db)):
 
 
 @router.delete("/{id}/itinerary/{day}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_iter(day: int,  id: int, db: Session = Depends(db.get_db), auth_user : user.User = Depends(oauth2.get_current_user)):
+def delete_itineary(day: int,  id: int, db: Session = Depends(db.get_db), auth_user : user.User = Depends(oauth2.get_current_user)):
 
     trek = db.query(trekdestination.TrekDestination).filter(
         trekdestination.TrekDestination.trek_id == id).first()
@@ -76,8 +76,8 @@ def delete_iter(day: int,  id: int, db: Session = Depends(db.get_db), auth_user 
     return f"deleted itineary of day: {day}"
 
 
-@router.put("/{id}/itinerary/{day}", status_code=status.HTTP_200_OK)
-def update_iter(iternary_value: itenary_schema.IternaryUpdate, day: int,  id: int, db: Session = Depends(db.get_db), auth_user : user.User = Depends(oauth2.get_current_user)):
+@router.put("/{id}/itinerary/{day}", status_code=status.HTTP_200_OK, response_model=itenary_schema.IternaryResponse)
+def update_itineary(iternary_value: itenary_schema.IternaryUpdate, day: int,  id: int, db: Session = Depends(db.get_db), auth_user : user.User = Depends(oauth2.get_current_user)):
 
     trek = db.query(trekdestination.TrekDestination).filter(
         trekdestination.TrekDestination.trek_id == id).first()
@@ -94,3 +94,4 @@ def update_iter(iternary_value: itenary_schema.IternaryUpdate, day: int,  id: in
                             detail=f"This itinerary does not exist")
     iter_query.update(iternary_value.dict(), synchronize_session=False)
     db.commit()
+    return iter_query.first()
