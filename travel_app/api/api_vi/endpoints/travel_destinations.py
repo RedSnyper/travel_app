@@ -6,6 +6,7 @@ from travel_app.schemas import travel_destination_schema
 from travel_app.database import db
 from travel_app.models import trekdestination, user
 from travel_app.auth import oauth2
+from typing import Optional
 router = APIRouter(
     prefix="/travels",
     tags=['Travel Destinations']
@@ -24,9 +25,10 @@ auth_user : user.User = Depends(oauth2.get_current_user)):
 
 
 @router.get('/', response_model=List[travel_destination_schema.TravelDestinationResponse], status_code=status.HTTP_200_OK)
-def get_all_travel_destinations(db: Session = Depends(db.get_db)):
+def get_all_travel_destinations(limit:int = 10, skip: int = 0, search: Optional[str]="", db: Session = Depends(db.get_db)):
 
-    treks = db.query(trekdestination.TrekDestination).order_by(trekdestination.TrekDestination.trek_id).all()
+    treks = db.query(trekdestination.TrekDestination).order_by(trekdestination.TrekDestination.trek_id).filter(
+                trekdestination.TrekDestination.title.contains(search.lower())).limit(limit=limit).offset(skip).all()
     if treks:
         return treks
 

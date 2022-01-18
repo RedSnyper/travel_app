@@ -10,6 +10,7 @@ from travel_app.database import db
 from travel_app.models import user
 from travel_app.utils import password_encrypt
 from travel_app.auth import oauth2
+from typing import Optional
 router = APIRouter(
     prefix="/users",
     tags=['User']
@@ -41,9 +42,10 @@ async def create_user(new_user: user_schema.UserCreate, db: Session = Depends(db
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[user_schema.UserResponse])
-async def get_all_users(db: Session = Depends(db.get_db)):
+async def get_all_users(limit:int = 10, skip: int = 0, search: Optional[str]="", db: Session = Depends(db.get_db)):
     # await db.query(user.User).all() does not work user sqlalchemy[asyncio] maybe. To be checked later
-    all_users = db.query(user.User).all()
+    all_users = db.query(user.User).filter(
+                user.User.full_name.contains(search.lower())).limit(limit=limit).offset(skip).all()
     return all_users
 
 

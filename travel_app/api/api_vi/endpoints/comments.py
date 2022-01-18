@@ -4,13 +4,23 @@ from travel_app.models import trekdestination, comment,user
 from sqlalchemy.orm import Session
 from travel_app.database import db
 from travel_app.auth import oauth2
-
+from typing import List
 
 router = APIRouter(
     prefix='/travels',
     tags=['Comment']
 )
 
+
+@router.get("/{id}/comment", status_code=status.HTTP_200_OK, response_model=List[comment_schema.CommentsResponse])
+def get_comment_detail(id: int,limit: int = 10, db: Session = Depends(db.get_db)):
+
+    trek = db.query(trekdestination.TrekDestination).filter(trekdestination.TrekDestination.trek_id == id).first()
+    if not trek:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Trek destination does not exist")
+    comment_list = db.query(comment.Comment).filter(comment.Comment.comment_on == id).limit(limit=limit).all()
+    return comment_list
 
 
 @router.post("/{id}/comment", status_code=status.HTTP_201_CREATED, response_model=comment_schema.CommentRes)
