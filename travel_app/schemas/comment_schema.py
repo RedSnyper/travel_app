@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class UserComment(BaseModel):
-    commented_by: user_schema.UserName
+    commented_by: user_schema.UserNameEmail
 
 class CommentCreate(BaseModel):
     comment: str

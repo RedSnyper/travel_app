@@ -1,6 +1,5 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import func, desc
 from typing import List
 from travel_app.schemas import travel_destination_schema
 from travel_app.database import db

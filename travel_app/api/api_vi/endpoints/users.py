@@ -1,7 +1,4 @@
-from urllib import response
 from fastapi import APIRouter, status, Depends, HTTPException
-
-from travel_app.models import trekdestination
 from travel_app.schemas import user_schema
 from typing import List
 from sqlalchemy import func, exc
@@ -42,9 +39,9 @@ async def create_user(new_user: user_schema.UserCreate, db: Session = Depends(db
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[user_schema.UserResponse])
-async def get_all_users(limit:int = 10, skip: int = 0, search: Optional[str]="", db: Session = Depends(db.get_db)):
+async def get_all_users(limit:int = 25, skip: int = 0, search: Optional[str]="", db: Session = Depends(db.get_db)):
     # await db.query(user.User).all() does not work user sqlalchemy[asyncio] maybe. To be checked later
-    all_users = db.query(user.User).filter(
+    all_users = db.query(user.User).order_by(user.User.created_at.desc()).filter(
                 user.User.full_name.contains(search.lower())).limit(limit=limit).offset(skip).all()
     return all_users
 

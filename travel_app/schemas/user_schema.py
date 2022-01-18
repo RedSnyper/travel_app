@@ -1,8 +1,6 @@
-import email
 from pydantic import BaseModel, EmailStr
-from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import orm
+
 
 class UserWrittenRoute(BaseModel):
     trek_id: int

@@ -1,9 +1,6 @@
-from optparse import Option
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional, List
-
-from travel_app.models.trekdestination import TrekDestination
+from typing import List
 from . import user_schema, itenary_schema, comment_schema, vote_schema
 
 

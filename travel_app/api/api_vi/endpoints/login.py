@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from travel_app.schemas.token_schema import Token, TokenData
+from travel_app.schemas.token_schema import Token
 from travel_app.database.db import get_db
 from travel_app.models.user import User
 from travel_app.utils.password_encrypt import verify

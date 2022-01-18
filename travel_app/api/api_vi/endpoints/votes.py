@@ -4,7 +4,7 @@ from travel_app.auth import oauth2
 from travel_app.models import vote, trekdestination, user
 from travel_app.schemas import vote_schema
 from travel_app.database import db
-from typing import Optional, List
+from typing import List
 
 router = APIRouter(
     prefix='/travels',
@@ -14,7 +14,7 @@ router = APIRouter(
 #get votes by filtered limit, for it needs to change the travel_destination route such that comments and votes are not shown there 
 
 @router.get("/{id}/vote", status_code=status.HTTP_200_OK, response_model=List[vote_schema.VotedBy])
-def get_vote_detail(id: int,limit: int = 10, db: Session = Depends(db.get_db)):
+def get_vote_detail(id: int,limit: int = 20, db: Session = Depends(db.get_db)):
 
     trek = db.query(trekdestination.TrekDestination).filter(trekdestination.TrekDestination.trek_id == id).first()
     if not trek:
