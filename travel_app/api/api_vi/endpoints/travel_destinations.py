@@ -2,10 +2,10 @@ from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
 from typing import List
-from ..schemas import travel_destination_schema
-from ..database import db
-from ..models import trekdestination, user
-from ..auth import oauth2
+from travel_app.schemas import travel_destination_schema
+from travel_app.database import db
+from travel_app.models import trekdestination, user
+from travel_app.auth import oauth2
 router = APIRouter(
     prefix="/travels",
     tags=['Travel Destinations']

@@ -3,9 +3,9 @@ from travel_app.database.db import engine
 from travel_app.models import user
 from travel_app.database.db_model_init import add_models_to_database
 from fastapi.middleware.cors import CORSMiddleware
-from travel_app.routers import travel_destination_route,user_route, login_route, vote_route, comment_route, iternary_route
+from travel_app.api.api_vi.api import api_router
 
-app = FastAPI()
+app = FastAPI(title="Elective_Travel_App")
 origins = ["*"]
 
 
@@ -13,20 +13,15 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins = origins,
     allow_credentials = True,
-    allow_methods = ["*"],
+    allow_methods = ["*"], 
     allow_headers = ["*"]
 )
 
-app.include_router(travel_destination_route.router)
-app.include_router(user_route.router)
-app.include_router(login_route.router)
-app.include_router(comment_route.router)
-app.include_router(vote_route.router)
-app.include_router(iternary_route.router)
+app.include_router(api_router, prefix='/api/api_v1')
 
 @app.get("/")
 async def main() -> dict:
-    await add_models_to_database()
+    await add_models_to_database() 
     return {"message": "hello world"}
 
 if __name__ == '__main__':

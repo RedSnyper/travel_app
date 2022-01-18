@@ -1,9 +1,9 @@
 from fastapi import APIRouter, status, HTTPException, Depends
-from ..schemas import comment_schema
-from ..models import trekdestination, comment,user
+from travel_app.schemas import comment_schema
+from travel_app.models import trekdestination, comment,user
 from sqlalchemy.orm import Session
-from ..database import db
-from ..auth import oauth2
+from travel_app.database import db
+from travel_app.auth import oauth2
 
 
 router = APIRouter(

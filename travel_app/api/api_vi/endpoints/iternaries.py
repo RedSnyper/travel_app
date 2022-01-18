@@ -1,10 +1,10 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import  exc
-from ..schemas import itenary_schema
-from ..database import db
-from ..models import trekdestination, user, itenary
-from ..auth import oauth2
+from travel_app.schemas import itenary_schema
+from travel_app.database import db
+from travel_app.models import trekdestination, user, itenary
+from travel_app.auth import oauth2
 from typing import List
 
 router = APIRouter(

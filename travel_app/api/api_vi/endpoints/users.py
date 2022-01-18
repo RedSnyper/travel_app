@@ -2,14 +2,14 @@ from urllib import response
 from fastapi import APIRouter, status, Depends, HTTPException
 
 from travel_app.models import trekdestination
-from ..schemas import user_schema
+from travel_app.schemas import user_schema
 from typing import List
 from sqlalchemy import func, exc
 from sqlalchemy.orm import Session
-from ..database import db
-from ..models import user
-from ..utils import password_encrypt
-from ..auth import oauth2
+from travel_app.database import db
+from travel_app.models import user
+from travel_app.utils import password_encrypt
+from travel_app.auth import oauth2
 router = APIRouter(
     prefix="/users",
     tags=['User']
