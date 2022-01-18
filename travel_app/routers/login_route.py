@@ -29,12 +29,12 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
 
 
 
-#logout_check needed
+#logout_check needed. Ask for help here
 @router.post('/logout',)
 def logout(auth_user = Depends(oauth2.get_current_user)):
-    print("comes here")
     if auth_user:
-        del(auth_user)
+        # how to do this without saving jwt on database
+        del(auth_user) #is auth_user not a singleton ?? ask helpppppppppppp
         return {'logout':"success"}
 
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Login first")

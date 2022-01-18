@@ -5,6 +5,7 @@ from ..schemas import itenary_schema
 from ..database import db
 from ..models import trekdestination, user, itenary
 from ..auth import oauth2
+from typing import List
 
 router = APIRouter(
     prefix="/travels",
@@ -30,13 +31,25 @@ def add_iter(iternary_value: itenary_schema.IternaryCreate,  id: int, db: Sessio
         trek.days += 1
 
     try:
-        db.add(new_iter,)
+        db.add(new_iter)
         db.commit()
         db.refresh(new_iter)
     except exc.IntegrityError:
          raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                         detail=f"day {iternary_value.day} already exists. Update the day or remove the day")
     return new_iter
+
+
+
+@router.get("/{id}/itinerary", status_code=status.HTTP_200_OK , response_model=List[itenary_schema.IternaryResponse])
+def get_iter_details(id: int, db:Session = Depends(db.get_db)):
+    trek = db.query(trekdestination.TrekDestination).filter(
+        trekdestination.TrekDestination.trek_id == id).first()
+    if not trek:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Trek destination does not exist")
+    iter_query = db.query(itenary.Itenary).filter(itenary.Itenary.trek_destination_id == id).order_by(itenary.Itenary.day).all()
+    return iter_query
 
 
 @router.delete("/{id}/itinerary/{day}", status_code=status.HTTP_204_NO_CONTENT)

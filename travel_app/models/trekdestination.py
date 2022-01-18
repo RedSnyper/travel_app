@@ -3,7 +3,7 @@ from travel_app.database.db import Base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.orm import relationship
-class TrekDestination(Base): #POST
+class TrekDestination(Base):
     __tablename__ = "trek_destinations"
     trek_id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String, nullable=False)
@@ -17,6 +17,6 @@ class TrekDestination(Base): #POST
     comment_count = Column(Integer, nullable=False, server_default=text('0'))
     vote_count = Column(Integer, nullable=False, server_default=text('0'))
     created_by = relationship("User") #who wrote this trekdestination
-    itenaries = relationship("Itenary", back_populates='itenaries') #to get all iternaries of the trek destination
-    comments = relationship("Comment", back_populates='comments') #to get all comment on the trek_destinations
+    itenaries = relationship("Itenary", back_populates='itenaries', order_by='Itenary.day') #to get all iternaries of the trek destination
+    comments = relationship("Comment", back_populates='comments', order_by='Comment.created_at') #to get all comment on the trek_destinations
     votes = relationship('Vote', back_populates='votes')    #to get votes on the trekdestination
