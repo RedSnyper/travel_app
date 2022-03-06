@@ -31,7 +31,7 @@ The .env file should contain:
 - DATABASE_NAME = 
 - DATABASE_USERNAME = 
 - SECRET_KEY = *alphanumeric charaters*
-- ALGORITHM = *jwt token algorithm (HS256)*
+- ALGORITHM = *jwt token algorithm (e.g. HS256)*
 - ACCESS_TOKEN_EXPIRE_MINUTES = *time in minutes*  
 
 ### 5. Edit the db.py **SQLALCHEMY_DATABASE_URL** 
