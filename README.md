@@ -51,3 +51,6 @@ The .env file should contain:
   
 project demo can be found at:
 ### https://travel-app-elective.herokuapp.com/docs
+
+
+![Alt text](/elective.PNG "Swagger UI")
