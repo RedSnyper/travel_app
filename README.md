@@ -47,3 +47,7 @@ The .env file should contain:
     (if for development purpose:)
     
     ### **uvicorn travel_app.main:app --reload**
+    
+  
+project demo can be found at:
+### https://fastapi-testtry77.herokuapp.com/docs
