@@ -50,4 +50,4 @@ The .env file should contain:
     
   
 project demo can be found at:
-### https://fastapi-testtry77.herokuapp.com/docs
+### https://travel-app-elective.herokuapp.com/docs
